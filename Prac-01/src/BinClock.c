@@ -111,12 +111,13 @@ int main(void){
 		//Write your logic here
 
 		
-		void loop() {
-			digitalWrite(LED, HIGH);  // LED on
-			delay(1000);             // delay 1 sec
-			digitalWrite(LED, LOW);   // LED off.
-			delay(1000);             // delay 1 sec
+		if (digitalRead(LED) == 0){
+			digitalWrite(LED, HIGH);
 		}
+		else if (digitalRead(LED) == 1){
+                        digitalWrite(LED, LOW);
+                }
+
 		
 		// Print out the time we have stored on our RTC
 		printf("The current time is: %d:%d:%d\n", hours, mins, secs);
@@ -241,15 +242,15 @@ void minInc(void){
 		//Write minutes back to the RTC
 		
 		int value = hexCompensation(wiringPiI2CReadReg8(RTC, MIN_REGISTER));
-        value = value +1;
+       		 value = value +1;
 				
-        if (value==60){
-        value =0; 
+	        if (value==60){
+       		 value =0; 
 		hourInc(); 
 		}
 
         value = decCompensation(value);
-        iringPiI2CWriteReg8(RTC, MIN_REGISTER, value) ;
+        wiringPiI2CWriteReg8(RTC, MIN_REGISTER, value) ;
 
 	}
 	lastInterruptTime = interruptTime;
